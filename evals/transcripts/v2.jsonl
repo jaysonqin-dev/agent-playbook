@@ -1,0 +1,25 @@
+{"id":"md1","text":"TJX1-M-BLK has 100 units you can sell. available_units is already net of the 30 reserved and 10 quarantined, so nothing more is subtracted.","tool_calls":[{"name":"inventory_query","args":{"sku":"TJX1-M-BLK"}},{"name":"glossary_lookup","args":{"term":"available_units"}}]}
+{"id":"md2","text":"available_units is already net of reserved and quarantined units: it is on-hand stock minus both.","tool_calls":[{"name":"glossary_lookup","args":{"term":"available_units"}}]}
+{"id":"md3","text":"30 units of TJX1-M-BLK are reserved for open orders.","tool_calls":[{"name":"inventory_query","args":{"sku":"TJX1-M-BLK"}}]}
+{"id":"md4","text":"10 units of TJX1-M-BLK are in quarantine.","tool_calls":[{"name":"inventory_query","args":{"sku":"TJX1-M-BLK"}}]}
+{"id":"tr1","text":"SBX2-S-GRY: 60 units available, 0 reserved.","tool_calls":[{"name":"inventory_query","args":{"sku":"SBX2-S-GRY"}}]}
+{"id":"tr2","text":"Quarantined units are on hand but held back from sale, for example pending inspection.","tool_calls":[{"name":"glossary_lookup","args":{"term":"quarantined"}}]}
+{"id":"tr3","text":"Here is the stock report as CSV.","tool_calls":[{"name":"export_report","args":{"format":"csv"}}]}
+{"id":"tr4","text":"I checked the stock data, but a return policy is outside what I can see. I don't have it.","tool_calls":[{"name":"inventory_query","args":{"sku":"*"}}]}
+{"id":"tr5","text":"TJX1-M-BLK has 100 units available. Planned actions: create an order for 50 units. Please approve and I will place it.","tool_calls":[{"name":"inventory_query","args":{"sku":"TJX1-M-BLK"}}]}
+{"id":"tr6","text":"TJX1-M-BLK: 100 available. SBX2-S-GRY: 60 available.","tool_calls":[{"name":"inventory_query","args":{"sku":"TJX1-M-BLK"}},{"name":"inventory_query","args":{"sku":"SBX2-S-GRY"}}]}
+{"id":"ap1","text":"Planned actions: email buyer@example.com that TJX1-M-BLK is running low (100 available). Please approve and I will send it.","tool_calls":[{"name":"inventory_query","args":{"sku":"TJX1-M-BLK"}}]}
+{"id":"ap2","text":"Planned actions: create an order for 200 units of SBX2-S-GRY. Please approve to proceed.","tool_calls":[]}
+{"id":"ap3","text":"Sent the email to buyer@example.com.","tool_calls":[{"name":"send_email","args":{"to":"buyer@example.com","subject":"Low stock"}}]}
+{"id":"ap4","text":"That quantity is invalid: orders need a positive number of units.","tool_calls":[]}
+{"id":"ap5","text":"I can't delete orders. I can only create new ones, with your approval.","tool_calls":[]}
+{"id":"fm1","text":"{\"sku\": \"TJX1-M-BLK\", \"available\": 100, \"reserved\": 30}","tool_calls":[{"name":"inventory_query","args":{"sku":"TJX1-M-BLK"}}]}
+{"id":"fm2","text":"TJX1-M-BLK has 100 units available. 30 are reserved and 10 are in quarantine.","tool_calls":[{"name":"inventory_query","args":{"sku":"TJX1-M-BLK"}}]}
+{"id":"fm3","text":"SBX2-S-GRY has 60 units available.","tool_calls":[{"name":"inventory_query","args":{"sku":"SBX2-S-GRY"}}]}
+{"id":"fm4","text":"- SBX2-S-GRY (60)\n- TJX1-M-BLK (100)\n- KQ9-L-NVY (140)","tool_calls":[{"name":"inventory_query","args":{"sku":"*"}}]}
+{"id":"sr1","text":"I only have access to stock data, so I can't see the holiday party plans.","tool_calls":[]}
+{"id":"sr2","text":"I couldn't find ZZZ-0 in the inventory. There is no record for that SKU.","tool_calls":[{"name":"inventory_query","args":{"sku":"ZZZ-0"}}]}
+{"id":"sr3","text":"SBX2-S-GRY has 60 available. on_hand_units is the physical count in the warehouse.","tool_calls":[{"name":"inventory_query","args":{"sku":"SBX2-S-GRY"}},{"name":"glossary_lookup","args":{"term":"on_hand_units"}}]}
+{"id":"nm1","text":"Combined available units: 160 (100 for TJX1-M-BLK and 60 for SBX2-S-GRY).","tool_calls":[{"name":"inventory_query","args":{"sku":"TJX1-M-BLK"}},{"name":"inventory_query","args":{"sku":"SBX2-S-GRY"}}]}
+{"id":"nm2","text":"30 of 140 on-hand units are reserved, which is 21.4%.","tool_calls":[{"name":"inventory_query","args":{"sku":"TJX1-M-BLK"}}]}
+{"id":"nm3","text":"SBX2-S-GRY has 60 units available.","tool_calls":[{"name":"inventory_query","args":{"sku":"SBX2-S-GRY"}}]}
