@@ -20,7 +20,7 @@ from urllib.parse import urlparse
 from .case import Case
 from .mock_backend import TOOL_SCHEMAS, MockBackend
 
-DEFAULT_BASE_URL = "https://models.github.ai/inference"
+DEFAULT_BASE_URL = "http://localhost:11434/v1"
 DEFAULT_KEY_ENV = "EVALKIT_API_KEY"
 MAX_RETRIES = 3
 MAX_BACKOFF_SECONDS = 4.0
@@ -47,7 +47,7 @@ def _backoff(attempt: int, retry_after: Optional[str]) -> float:
 def _check_url(base_url: str) -> str:
     parsed = urlparse(base_url)
     if parsed.scheme not in ("http", "https") or not parsed.hostname:
-        raise LiveError("--base-url must be an http(s) URL such as https://models.github.ai/inference")
+        raise LiveError("--base-url must be an http(s) URL such as http://localhost:11434/v1 or https://api.openai.com/v1")
     if parsed.scheme == "http" and parsed.hostname not in LOOPBACK_HOSTS:
         raise LiveError("refusing to send an API key over plain http to a non-local host; use https")
     return base_url.rstrip("/") + "/chat/completions"

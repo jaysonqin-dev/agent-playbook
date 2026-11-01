@@ -4,13 +4,26 @@ The committed transcripts in `evals/transcripts/` are hand-written. `evalkit liv
 
 ## How to run
 
-Any OpenAI-compatible chat-completions endpoint with tool calling works. The default is `https://models.github.ai/inference`; the request goes to `<base-url>/chat/completions`.
+Any OpenAI-compatible chat-completions endpoint with tool calling works. The request goes to `<base-url>/chat/completions`. The default is a local [Ollama](https://ollama.com) server, `http://localhost:11434/v1`, which needs no account and costs nothing. The runner still requires `EVALKIT_API_KEY` to be set, and Ollama ignores its value, so any word works there.
+
+### Option A: a local model with Ollama (free, nothing leaves your machine)
+
+Install Ollama from ollama.com, then pull a model that supports tool calling. Small local models are weaker than hosted ones, and the results will show that.
 
 ```bash
-export EVALKIT_API_KEY="paste-your-key-here"
-export MODEL="openai/gpt-4.1-mini"
-export TAG="${MODEL//\//-}"
+ollama pull qwen2.5:7b
+export EVALKIT_API_KEY="ollama"
+export MODEL="qwen2.5:7b"
+export TAG="${MODEL//[\/:]/-}"
+```
 
+### Option B: a hosted endpoint
+
+Set `--base-url` to the provider's OpenAI-compatible URL, for example `https://api.openai.com/v1`, put the provider's key in `EVALKIT_API_KEY`, and set `MODEL` to a model name the provider offers. A hosted key is a secret: type it only in your own terminal, never in a chat or a file.
+
+### Then run
+
+```bash
 python3 -m evalkit live --cases evals/cases/inventory_assistant.jsonl --instructions evals/instructions/v1.md --model "$MODEL" --out "evals/transcripts/live-$TAG-v1.jsonl"
 
 python3 -m evalkit live --cases evals/cases/inventory_assistant.jsonl --instructions evals/instructions/v2.md --model "$MODEL" --out "evals/transcripts/live-$TAG-v2.jsonl"
@@ -20,7 +33,7 @@ python3 -m evalkit diff --cases evals/cases/inventory_assistant.jsonl --before "
 unset EVALKIT_API_KEY
 ```
 
-`openai/gpt-4.1-mini` is only an example: use a model name your endpoint offers. `TAG` is the model name with `/` replaced by `-`, used in the file names. The key line stays in your shell history, so run `unset` afterwards and rotate the key if the machine is shared. These commands are written to paste into bash or zsh as they are.
+Add `--base-url` to the two `live` commands for Option B. `TAG` is the model name with `/` and `:` replaced by `-`, used in the file names. A hosted key typed into a terminal stays in your shell history, so run `unset` afterwards and rotate the key if the machine is shared. These commands are written to paste into bash or zsh as they are. A first cheap try: add `--only md1,nm4` and write to `/tmp/try.jsonl`.
 
 Flags: `--base-url`, `--api-key-env` (default `EVALKIT_API_KEY`), `--max-steps` (model calls per case, default 6), `--temperature` (default 0), `--only md1,nm4` (run a subset, useful for a cheap first try), `--timeout` (seconds per request, default 60).
 
@@ -30,7 +43,7 @@ One JSON object per line:
 
 ```json
 {"id": "md1", "text": "...final answer...", "tool_calls": [{"name": "inventory_query", "args": {"sku": "TJX1-M-BLK"}}],
- "meta": {"model": "...", "base_url_host": "models.github.ai", "timestamp_utc": "...", "instructions_sha256": "...", "steps": 2, "truncated": false}}
+ "meta": {"model": "...", "base_url_host": "localhost", "timestamp_utc": "...", "instructions_sha256": "...", "steps": 2, "truncated": false}}
 ```
 
 - `text` and `tool_calls` are what the graders read. Arguments are recorded exactly as the model sent them, including wrong types.
