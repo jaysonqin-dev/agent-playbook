@@ -34,7 +34,7 @@ Ten failures from building and running a team-facing analytics agent, each reduc
 
 ### 7. Debugging writes by inserting real rows
 **Symptom.** A write failed with a generic "value not supported" error; bisecting by posting half-payloads left malformed rows behind in the production sheet.
-**Rule.** Classify columns from metadata before writing. If a generic error still occurs, create one disposable row and bisect with updates to that single row, then delete it. Afterwards, audit for orphaned rows. This is implemented in [`agent-tool-safety`](https://github.com/qjl0629/agent-tool-safety).
+**Rule.** Classify columns from metadata before writing. If a generic error still occurs, create one disposable row and bisect with updates to that single row, then delete it. Afterwards, audit for orphaned rows. This is implemented in [`agent-tool-safety`](https://github.com/jaysonqin-dev/agent-tool-safety).
 
 ### 8. Stating platform behavior I had not verified
 **Symptom.** I told a user a setting required starting a new chat. It did not.

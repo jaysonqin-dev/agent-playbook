@@ -57,8 +57,8 @@ v1 -> v2
 
 ## Related
 
-- [`agent-tool-safety`](https://github.com/qjl0629/agent-tool-safety): dry-run, plan-bound approval and a tamper-evident audit log for agents that write to team systems.
-- [`extraction-agent-demo`](https://github.com/qjl0629/extraction-agent-demo): proving that swapping a model in an extraction pipeline is safe.
+- [`agent-tool-safety`](https://github.com/jaysonqin-dev/agent-tool-safety): dry-run, plan-bound approval and a tamper-evident audit log for agents that write to team systems.
+- [`extraction-agent-demo`](https://github.com/jaysonqin-dev/extraction-agent-demo): proving that swapping a model in an extraction pipeline is safe.
 
 ## Layout
 

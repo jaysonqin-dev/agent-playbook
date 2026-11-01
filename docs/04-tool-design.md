@@ -25,4 +25,4 @@ Reading is cheap to get wrong. Writing is not.
 - **Classify before you write.** Read the target's schema and decide per field what can be written safely (computed fields, validated lists, people fields). Do not discover the rules by trial and error on the live system.
 - **Log and make it undoable.**
 
-The [`agent-tool-safety`](https://github.com/qjl0629/agent-tool-safety) repository implements these as a small library with tests, against a mock spreadsheet API that reproduces the usual failure modes.
+The [`agent-tool-safety`](https://github.com/jaysonqin-dev/agent-tool-safety) repository implements these as a small library with tests, against a mock spreadsheet API that reproduces the usual failure modes.
