@@ -33,7 +33,7 @@ v1 -> v2
   pass rate 72% -> 92%
   regressed: tr4
   fixed: md1, tr3, ap1, fm3, sr2, nm1
-  still_failing: fm4
+  still_failing: nm4
 ```
 
 `md1` is a metric-definition failure (a quantity already net of reserved stock is reduced a second time). `tr4` is the regression: an instruction meant to make the agent check the data first made it query data for an out-of-scope question.

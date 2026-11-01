@@ -37,7 +37,7 @@ v1 -> v2
   pass rate 72% -> 92%
   regressed: tr4
   fixed: md1, tr3, ap1, fm3, sr2, nm1
-  still_failing: fm4
+  still_failing: nm4
 ```
 
 The pass rate went up and a regression is hiding inside it: the "always check the data first" instruction fixed several cases and made the agent query data for an out-of-scope question (`tr4`). Read `regressed` first. `--fail-on-regression` makes that a hard gate.

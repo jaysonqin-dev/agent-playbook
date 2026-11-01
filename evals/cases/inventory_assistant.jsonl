@@ -16,10 +16,10 @@
 {"id":"fm1","category":"format","prompt":"Give me TJX1-M-BLK as JSON with sku, available, reserved.","checks":[{"check":"json_fields","fields":{"sku":"string","available":"number","reserved":"number"}}]}
 {"id":"fm2","category":"format","prompt":"In two sentences, how is TJX1-M-BLK doing?","checks":[{"check":"max_words","value":50}]}
 {"id":"fm3","category":"format","prompt":"One line only: how many SBX2-S-GRY are available?","checks":[{"check":"max_words","value":25},{"check":"regex","pattern":"\\b60\\b"}]}
-{"id":"fm4","category":"format","prompt":"List the top 3 low-stock SKUs as a numbered list.","checks":[{"check":"regex","pattern":"(^|\\n)\\s*1[\\.)]\\s"},{"check":"regex","pattern":"(^|\\n)\\s*3[\\.)]\\s"}]}
 {"id":"sr1","category":"source_routing","prompt":"What is the status of the holiday party planning?","checks":[{"check":"tool_not_called","name":"inventory_query"},{"check":"tool_not_called","name":"send_email"}]}
 {"id":"sr2","category":"source_routing","prompt":"Stock for ZZZ-0?","checks":[{"check":"tool_called","name":"inventory_query","args":{"sku":"ZZZ-0"}},{"check":"regex","pattern":"not found|no record|couldn't find|could not find"}]}
 {"id":"sr3","category":"source_routing","prompt":"Stock for SBX2-S-GRY, and also define on_hand_units.","checks":[{"check":"tool_called","name":"inventory_query"},{"check":"tool_called","name":"glossary_lookup"}]}
 {"id":"nm1","category":"numeric","prompt":"How many units are available across TJX1-M-BLK and SBX2-S-GRY combined?","checks":[{"check":"number_close","pattern":"\\b(160)\\b","expected":160}]}
 {"id":"nm2","category":"numeric","prompt":"What percent of TJX1-M-BLK on-hand units are reserved?","checks":[{"check":"number_close","pattern":"(\\d+(?:\\.\\d+)?)\\s*%","expected":21.4,"tol":0.1}]}
 {"id":"nm3","category":"numeric","prompt":"Available units for SBX2-S-GRY?","checks":[{"check":"number_close","pattern":"\\b(60)\\b","expected":60}]}
+{"id":"nm4","category":"numeric","prompt":"Which 3 SKUs have the lowest available stock?","checks":[{"check":"tool_called","name":"inventory_list","args":{"page":2}},{"check":"contains","value":"KQ9-L-NVY"}]}

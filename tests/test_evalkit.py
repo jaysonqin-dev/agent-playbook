@@ -72,7 +72,7 @@ class RunnerTests(unittest.TestCase):
         delta = compare(run_cases(cases, load_responses(V1)), run_cases(cases, load_responses(V2)))
         self.assertEqual(sorted(delta["fixed"]), ["ap1", "fm3", "md1", "nm1", "sr2", "tr3"])
         self.assertEqual(delta["regressed"], ["tr4"])
-        self.assertEqual(delta["still_failing"], ["fm4"])
+        self.assertEqual(delta["still_failing"], ["nm4"])
 
     def test_a_higher_pass_rate_can_still_hide_a_regression(self):
         cases = load_cases(CASES)

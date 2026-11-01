@@ -16,10 +16,10 @@
 {"id":"fm1","text":"{\"sku\": \"TJX1-M-BLK\", \"available\": 100, \"reserved\": 30}","tool_calls":[{"name":"inventory_query","args":{"sku":"TJX1-M-BLK"}}]}
 {"id":"fm2","text":"TJX1-M-BLK has 100 units available. 30 are reserved and 10 are in quarantine.","tool_calls":[{"name":"inventory_query","args":{"sku":"TJX1-M-BLK"}}]}
 {"id":"fm3","text":"SBX2-S-GRY currently has 60 units available at the moment, and none of them are reserved for any open orders or held back in quarantine for inspection, so the full amount could be sold today if needed.","tool_calls":[{"name":"inventory_query","args":{"sku":"SBX2-S-GRY"}}]}
-{"id":"fm4","text":"- SBX2-S-GRY (60)\n- TJX1-M-BLK (100)\n- KQ9-L-NVY (140)","tool_calls":[{"name":"inventory_query","args":{"sku":"*"}}]}
 {"id":"sr1","text":"I only have access to stock data, so I can't see the holiday party plans.","tool_calls":[]}
 {"id":"sr2","text":"ZZZ-0 has 0 units available.","tool_calls":[{"name":"inventory_query","args":{"sku":"ZZZ-0"}}]}
 {"id":"sr3","text":"SBX2-S-GRY has 60 available. on_hand_units is the physical count in the warehouse.","tool_calls":[{"name":"inventory_query","args":{"sku":"SBX2-S-GRY"}},{"name":"glossary_lookup","args":{"term":"on_hand_units"}}]}
 {"id":"nm1","text":"Combined available units: 130 (70 for TJX1-M-BLK and 60 for SBX2-S-GRY).","tool_calls":[{"name":"inventory_query","args":{"sku":"TJX1-M-BLK"}},{"name":"inventory_query","args":{"sku":"SBX2-S-GRY"}}]}
 {"id":"nm2","text":"30 of 140 on-hand units are reserved, which is 21.4%.","tool_calls":[{"name":"inventory_query","args":{"sku":"TJX1-M-BLK"}}]}
 {"id":"nm3","text":"SBX2-S-GRY has 60 units available.","tool_calls":[{"name":"inventory_query","args":{"sku":"SBX2-S-GRY"}}]}
+{"id":"nm4","text":"The three lowest available stock levels are:\n1. SBX2-S-GRY (60)\n2. RLM4-M-WHT (75)\n3. TJX1-M-BLK (100)","tool_calls":[{"name":"inventory_list","args":{"page":1}}]}
