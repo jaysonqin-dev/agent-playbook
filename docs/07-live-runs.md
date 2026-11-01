@@ -6,6 +6,10 @@ The committed transcripts in `evals/transcripts/` are hand-written. `evalkit liv
 
 Any OpenAI-compatible chat-completions endpoint with tool calling works. The request goes to `<base-url>/chat/completions`. The default is a local [Ollama](https://ollama.com) server, `http://localhost:11434/v1`, which needs no account and costs nothing. The runner still requires `EVALKIT_API_KEY` to be set, and Ollama ignores its value, so any word works there.
 
+### Option C: let GitHub run it (no install, no key)
+
+The `live-eval` workflow installs Ollama on a GitHub-hosted runner, pulls a model, records both versions and commits the transcripts. In the repository, open Actions, choose `live-eval`, then Run workflow. For a first try, set `only` to `md1,nm4`. Leave it empty for all 25 cases. The result appears in the run summary and in `evals/transcripts/live-<model>-v1.jsonl` and `-v2.jsonl`. It runs on CPU, so it is slow: a 3B model takes a few minutes for a quick try and is the sensible first choice. I have not timed a full run.
+
 ### Option A: a local model with Ollama (free, nothing leaves your machine)
 
 Install Ollama from ollama.com, then pull a model that supports tool calling. Small local models are weaker than hosted ones, and the results will show that.

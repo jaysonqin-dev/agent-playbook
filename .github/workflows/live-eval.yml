@@ -1,0 +1,70 @@
+name: live-eval
+
+# Runs the evaluation against a real model, on GitHub's servers, with a local Ollama model.
+# Start it from the Actions tab: choose live-eval, then Run workflow. No account or API key is needed.
+on:
+  workflow_dispatch:
+    inputs:
+      model:
+        description: "Ollama model to run, e.g. qwen2.5:3b or qwen2.5:7b"
+        default: "qwen2.5:3b"
+      only:
+        description: "Comma-separated case ids for a quick try, e.g. md1,nm4. Leave empty to run all 25."
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  live:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 330
+    env:
+      MODEL: ${{ inputs.model }}
+      ONLY: ${{ inputs.only }}
+      EVALKIT_API_KEY: ollama
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install and start Ollama
+        run: |
+          curl -fsSL https://ollama.com/install.sh | sh
+          nohup ollama serve > ollama.log 2>&1 &
+          for i in $(seq 1 30); do
+            curl -s http://127.0.0.1:11434/api/tags > /dev/null && break
+            sleep 2
+          done
+          ollama pull "$MODEL"
+
+      - name: Run both instruction versions
+        run: |
+          TAG="${MODEL//[\/:]/-}"
+          ONLY_ARGS=""
+          if [ -n "$ONLY" ]; then ONLY_ARGS="--only $ONLY"; fi
+          CASES=evals/cases/inventory_assistant.jsonl
+          python -m evalkit live --cases "$CASES" --instructions evals/instructions/v1.md --model "$MODEL" $ONLY_ARGS --out "evals/transcripts/live-$TAG-v1.jsonl"
+          python -m evalkit live --cases "$CASES" --instructions evals/instructions/v2.md --model "$MODEL" $ONLY_ARGS --out "evals/transcripts/live-$TAG-v2.jsonl"
+          python -m evalkit diff --cases "$CASES" --before "evals/transcripts/live-$TAG-v1.jsonl" --after "evals/transcripts/live-$TAG-v2.jsonl" | tee diff.txt
+          {
+            echo "## Live run: $MODEL"
+            echo '```'
+            cat diff.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Commit the recorded transcripts
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add evals/transcripts/live-*.jsonl
+          if git diff --cached --quiet; then
+            echo "nothing to commit"
+          else
+            git commit -m "Record live run: $MODEL"
+            git push
+          fi
