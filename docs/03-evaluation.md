@@ -15,7 +15,7 @@ python3 -m evalkit run  --cases evals/cases/inventory_assistant.jsonl --response
 python3 -m evalkit diff --cases evals/cases/inventory_assistant.jsonl --before evals/transcripts/v1.jsonl --after evals/transcripts/v2.jsonl
 ```
 
-The transcripts are **hand-written** to illustrate a realistic failure and a realistic fix. They are not output from a real model. The harness can also grade a live agent: `run_cases(cases, callable)` takes a function from a case to a response.
+The transcripts are **hand-written** to illustrate a realistic failure and a realistic fix. They are not output from a real model. The harness can also grade a live agent: `python3 -m evalkit live` records a real model's answers (see [Live runs](07-live-runs.md)), and `run_cases(cases, callable)` takes a function from a case to a response.
 
 ## What it grades, and why deterministically
 

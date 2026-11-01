@@ -21,6 +21,7 @@ class Response:
     case_id: str
     text: str
     tool_calls: List[ToolCall] = field(default_factory=list)
+    meta: Dict[str, Any] = field(default_factory=dict)  # present on live runs: model, timestamp, steps, ...
 
 
 @dataclass(frozen=True)
@@ -63,5 +64,5 @@ def load_responses(path: Path) -> Dict[str, Response]:
     responses = {}
     for row in _read_jsonl(path):
         calls = [ToolCall(call["name"], call.get("args", {})) for call in row.get("tool_calls", [])]
-        responses[row["id"]] = Response(row["id"], row.get("text", ""), calls)
+        responses[row["id"]] = Response(row["id"], row.get("text", ""), calls, row.get("meta") or {})
     return responses
