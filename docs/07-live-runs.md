@@ -7,22 +7,20 @@ The committed transcripts in `evals/transcripts/` are hand-written. `evalkit liv
 Any OpenAI-compatible chat-completions endpoint with tool calling works. The default is `https://models.github.ai/inference`; the request goes to `<base-url>/chat/completions`.
 
 ```bash
-export EVALKIT_API_KEY=...        # your key; read from the environment only
+export EVALKIT_API_KEY="paste-your-key-here"
+export MODEL="openai/gpt-4.1-mini"
+export TAG="${MODEL//\//-}"
 
-python3 -m evalkit live --cases evals/cases/inventory_assistant.jsonl \
-        --instructions evals/instructions/v1.md --model <model> \
-        --out evals/transcripts/live-<model>-v1.jsonl
+python3 -m evalkit live --cases evals/cases/inventory_assistant.jsonl --instructions evals/instructions/v1.md --model "$MODEL" --out "evals/transcripts/live-$TAG-v1.jsonl"
 
-python3 -m evalkit live --cases evals/cases/inventory_assistant.jsonl \
-        --instructions evals/instructions/v2.md --model <model> \
-        --out evals/transcripts/live-<model>-v2.jsonl
+python3 -m evalkit live --cases evals/cases/inventory_assistant.jsonl --instructions evals/instructions/v2.md --model "$MODEL" --out "evals/transcripts/live-$TAG-v2.jsonl"
 
-python3 -m evalkit diff --cases evals/cases/inventory_assistant.jsonl \
-        --before evals/transcripts/live-<model>-v1.jsonl \
-        --after  evals/transcripts/live-<model>-v2.jsonl
+python3 -m evalkit diff --cases evals/cases/inventory_assistant.jsonl --before "evals/transcripts/live-$TAG-v1.jsonl" --after "evals/transcripts/live-$TAG-v2.jsonl"
+
+unset EVALKIT_API_KEY
 ```
 
-If the model name contains a `/`, replace it with `-` in the file name.
+`openai/gpt-4.1-mini` is only an example: use a model name your endpoint offers. `TAG` is the model name with `/` replaced by `-`, used in the file names. The key line stays in your shell history, so run `unset` afterwards and rotate the key if the machine is shared. These commands are written to paste into bash or zsh as they are.
 
 Flags: `--base-url`, `--api-key-env` (default `EVALKIT_API_KEY`), `--max-steps` (model calls per case, default 6), `--temperature` (default 0), `--only md1,nm4` (run a subset, useful for a cheap first try), `--timeout` (seconds per request, default 60).
 
